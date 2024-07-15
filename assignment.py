@@ -54,7 +54,6 @@ def convert(content):
                 ans += prefixOfNext+ list[cur+1]+"\n" 
             
             ans += "\n"
-    print(ans)
     return ans
 
 if __name__ == "__main__":
@@ -62,7 +61,7 @@ if __name__ == "__main__":
     try:
         with open(input_file, 'r') as file:
             content = file.read()
-
+            print(convert(content))
             f = open("output_subtitles.ass", "x")
             f.write(convert(content))
             f.close()
