@@ -3,7 +3,6 @@ def convert(content):
     list = []
     #find position of text after how many ',' in this case we are assuming at 9th but ideally should be done dynamically
     cnt = 0
-    prefixOfD = ""
     posOfText = 9
     for line in content.split('\n'):
         if cnt != 0:
@@ -11,11 +10,6 @@ def convert(content):
             continue
         if line.startswith('Dialogue:'):
             x = line.split(',')
-            pod = ""
-            for i in range(len(x)):
-                if i != 9:
-                    pod += x[i] + ","
-            prefixOfD = pod
             str = x[posOfText].split(' ')
             cnt = len(str)
             tmpStr = ""
@@ -28,15 +22,19 @@ def convert(content):
         else:
             ans += line+"\n"
         
-    
-    prefixOfPrev = prefixOfD.replace('Default', 'P')
-    prefixOfNext = prefixOfD.replace('Default', 'F')
-
     cur = 0
     cnt = 0
     flag = 0
     for line in content.split('\n'):
         if line.startswith('Dialogue:'):
+            x = line.split(',')
+            prefixOfD = ""
+            for i in range(len(x)):
+                if i != 9:
+                    prefixOfD += x[i] + ","
+
+            prefixOfPrev = prefixOfD.replace('Default', 'P')
+            prefixOfNext = prefixOfD.replace('Default', 'F')
             if cnt == 0 and flag == 0:
                 cnt = len(line.split(',')[9].split(' ')) - 1
                 flag = 1
@@ -48,7 +46,7 @@ def convert(content):
             if cur == 0:
                 ans += prefixOfPrev+"...\n"
             else:
-                ans += prefixOfNext+ list[cur-1]+"\n"
+                ans += prefixOfPrev+ list[cur-1]+"\n"
             ans += line+"\n"
             if cur >= len(list) - 1:
                 ans += prefixOfNext+"...\n"
