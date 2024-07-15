@@ -53,8 +53,8 @@ def convert(content):
             else:
                 ans += prefixOfNext+ list[cur+1]+"\n" 
             
-             
             ans += "\n"
+    print(ans)
     return ans
 
 if __name__ == "__main__":
